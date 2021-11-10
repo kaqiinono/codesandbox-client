@@ -13,17 +13,18 @@ import { endMeasure, now } from '@codesandbox/common/lib/utils/metrics';
 import DependencyNotFoundError from 'sandbox-hooks/errors/dependency-not-found-error';
 import ModuleNotFoundError from 'sandbox-hooks/errors/module-not-found-error';
 
+import { insertBuiltinComponentStyle } from '@codesandbox/common/lib/utils/dependencies';
 import { generateBenchmarkInterface } from './utils/benchmark';
 import { Module } from './types/module';
 import {
-  TranspiledModule,
   ChildModule,
   SerializedTranspiledModule,
-} from './transpiled-module/transpiled-module';
+  TranspiledModule,
+} from './transpiled-module';
 import { Preset } from './preset';
 import fetchModule, {
-  setCombinedMetas,
   combinedMetas,
+  setCombinedMetas,
 } from './npm/dynamic/fetch-npm-module';
 import coreLibraries from './npm/get-core-libraries';
 import dependenciesToQuery from './npm/dependencies-to-query';
@@ -34,9 +35,9 @@ import {
 import { packageFilter } from './utils/resolve-utils';
 
 import {
-  ignoreNextCache,
-  deleteAPICache,
   clearIndexedDBCache,
+  deleteAPICache,
+  ignoreNextCache,
   ManagerCache,
 } from './cache';
 import { splitQueryFromPath } from './transpiled-module/utils/query-path';
@@ -396,6 +397,8 @@ export default class Manager implements IEvaluator {
       dependencyAliases: {},
     };
 
+    insertBuiltinComponentStyle(this.manifest);
+
     Object.keys(this.manifest.contents).forEach(path => {
       const module: Module = {
         path,
@@ -714,6 +717,7 @@ export default class Manager implements IEvaluator {
   }
 
   moduleDirectoriesCache: string[] | undefined;
+
   getModuleDirectories() {
     if (this.moduleDirectoriesCache) {
       return this.moduleDirectoriesCache;

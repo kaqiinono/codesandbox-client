@@ -70,6 +70,8 @@ export async function saveCache(
   };
 
   try {
+    // eslint-disable-next-line no-console
+    console.log('cache data', managerState);
     if (process.env.NODE_ENV === 'development') {
       debug(
         'Saving cache of ' +
@@ -110,7 +112,14 @@ export async function saveCache(
           'Content-Type': 'application/json',
         },
       })
-      .then(x => x.json())
+      .then(x => {
+        console.warn('cache data =====>', x.json());
+        console.warn('cache params:', {
+          version: manager.version,
+          data: stringifiedManagerState,
+        });
+        return x.json();
+      })
       .catch(e => {
         if (process.env.NODE_ENV === 'development') {
           console.error('Something went wrong while saving cache.');
@@ -138,7 +147,13 @@ export function deleteAPICache(
           'Content-Type': 'application/json',
         },
       })
-      .then(x => x.json())
+      .then(x => {
+        console.warn('cache data =====>', x.json());
+        console.warn('cache params:', {
+          version,
+        });
+        return x.json();
+      })
       .catch(e => {
         console.error('Something went wrong while deleting cache.');
         console.error(e);

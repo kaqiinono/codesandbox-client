@@ -56,7 +56,7 @@ export const Create: React.FC<CreateProps> = ({ collectionId }) => {
 
         <PersonalTemplates
           filter={filter}
-          hasLogIn={state.hasLogIn}
+          hasLogIn
           officialTemplateInfos={officialTemplateInfos}
           collectionId={collectionId}
         />

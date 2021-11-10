@@ -1,5 +1,8 @@
 import _debug from '@codesandbox/common/lib/utils/debug';
-import { getAbsoluteDependency } from '@codesandbox/common/lib/utils/dependencies';
+import {
+  getAbsoluteDependency,
+  isPrivateDependency,
+} from '@codesandbox/common/lib/utils/dependencies';
 import { ILambdaResponse } from '../merge-dependency';
 
 import delay from '../../utils/delay';
@@ -96,6 +99,9 @@ async function requestPackager(
   }
 }
 
+export const getDependencyApiUrl = (name: string, version: string | number) =>
+  `http://coder.jd.com/api/dependency?name=${name}&version=${version}`;
+
 export async function getDependency(
   depName: string,
   depVersion: string
@@ -113,7 +119,23 @@ export async function getDependency(
 
   const normalizedVersion = normalizeVersion(version);
   const dependencyUrl = dependenciesToQuery({ [depName]: normalizedVersion });
-  const fullUrl = `${BUCKET_URL}/v${VERSION}/packages/${depName}/${normalizedVersion}.json`;
+  let fullUrl = `${BUCKET_URL}/v${VERSION}/packages/${depName}/${normalizedVersion}.json`;
+  if (isPrivateDependency(depName)) {
+    fullUrl = getDependencyApiUrl(depName, normalizedVersion);
+    try {
+      const mani = await callApi(fullUrl);
+      return mani;
+    } catch (e) {
+      const { versions } =
+        (await callApi(`http://registry.m.jd.com/${depName}`)) || {};
+      if (versions) {
+        const mani = await callApi(
+          getDependencyApiUrl(depName, Object.keys(versions)[0])
+        );
+        return mani;
+      }
+    }
+  }
 
   try {
     const bucketManifest = await callApi(fullUrl);

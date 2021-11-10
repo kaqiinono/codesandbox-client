@@ -1,14 +1,22 @@
 import {
+  getPrivateDependencyServerUrl,
+  isPrivateDependency,
+} from '@codesandbox/common/lib/utils/dependencies';
+import {
+  downloadDependency,
   FetchProtocol,
   Meta,
-  downloadDependency,
 } from '../../fetch-npm-module';
 import { fetchWithRetries } from '../utils';
 import { JSDelivrMeta, normalizeJSDelivr } from './utils';
 
+// todo
 export class JSDelivrNPMFetcher implements FetchProtocol {
   async file(name: string, version: string, path: string): Promise<string> {
-    const url = `https://cdn.jsdelivr.net/npm/${name}@${version}${path}`;
+    let url = `https://cdn.jsdelivr.net/npm/${name}@${version}${path}`;
+    if (isPrivateDependency(name)) {
+      url = getPrivateDependencyServerUrl(name, version);
+    }
     const result = await fetchWithRetries(url).then(x => x.text());
 
     return result;
