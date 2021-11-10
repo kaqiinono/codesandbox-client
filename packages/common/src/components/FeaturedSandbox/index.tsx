@@ -105,7 +105,7 @@ export default class FeaturedSandbox extends React.PureComponent<
   componentDidMount() {
     if (this.props.sandboxId) {
       this.fetchSandbox(this.props.sandboxId).then(sandbox => {
-        this.setState({ sandbox: camelizeKeys(sandbox) as Sandbox });
+        this.setState({ sandbox: camelizeKeys(sandbox) as any });
         this.setUpPreview();
       });
     } else {

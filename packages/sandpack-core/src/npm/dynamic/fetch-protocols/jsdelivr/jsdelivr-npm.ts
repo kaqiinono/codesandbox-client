@@ -14,10 +14,13 @@ import { JSDelivrMeta, normalizeJSDelivr } from './utils';
 export class JSDelivrNPMFetcher implements FetchProtocol {
   async file(name: string, version: string, path: string): Promise<string> {
     let url = `https://cdn.jsdelivr.net/npm/${name}@${version}${path}`;
+    let result;
     if (isPrivateDependency(name)) {
       url = getPrivateDependencyServerUrl(name, version);
+      result = await fetchWithRetries(url).then(x => x.json());
+    } else {
+      result = await fetchWithRetries(url).then(x => x.text());
     }
-    const result = await fetchWithRetries(url).then(x => x.text());
 
     return result;
   }

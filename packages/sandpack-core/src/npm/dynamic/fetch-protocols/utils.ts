@@ -1,12 +1,39 @@
 import delay from '@codesandbox/common/lib/utils/delay';
+import { getPrivateDependencyServerUrl } from '@codesandbox/common/lib/utils/dependencies';
+
+function isPrivateDependency(name: string) {
+  return /\/@jd\/.*/.test(name);
+}
+
+function getPrivateDependencyInfo(url: string) {
+  let info = url.split('@jd/')[1].split('/');
+  if (info && info[0] && info[0].indexOf('@') > -1) {
+    info = info[0].split('@');
+    return getPrivateDependencyServerUrl(`@jd/${info[0]}`, info[1]);
+  }
+  if (info && info.length > 1) {
+    // @ts-ignore
+    const version = info && info.pop().replace('.json', '');
+    const depName = `@jd/${info.join('/')}`;
+    return getPrivateDependencyServerUrl(depName, version);
+  }
+  console.warn('dependency get wrong', url, info);
+  return url;
+}
 
 export async function fetchWithRetries(
   url: string,
   retries = 6,
   requestInit?: RequestInit
 ): Promise<Response> {
-  const doFetch = () =>
-    window.fetch(url, requestInit).then(x => {
+  // eslint-disable-next-line no-console
+  console.log('fetchWithRetries', url);
+  const doFetch = () => {
+    let _url = url;
+    if (isPrivateDependency(_url)) {
+      _url = getPrivateDependencyInfo(_url);
+    }
+    window.fetch(_url, requestInit).then(x => {
       if (x.ok) {
         return x;
       }
@@ -19,6 +46,7 @@ export async function fetchWithRetries(
 
       throw error;
     });
+  };
 
   let lastTryTime = 0;
   for (let i = 0; i < retries; i++) {
@@ -29,7 +57,8 @@ export async function fetchWithRetries(
     }
     try {
       lastTryTime = Date.now();
-      // eslint-disable-next-line
+      // @ts-ignore
+      // eslint-disable-next-line no-await-in-loop
       return await doFetch();
     } catch (e) {
       console.error(e);
