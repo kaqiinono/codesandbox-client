@@ -37,7 +37,6 @@ async function fetchWithRetries(
   url: string,
   obj: { dep: string; version: string }
 ) {
-  console.warn('fetchWithRetries', url);
   let err: Error;
   for (let i = 0; i < 5; i++) {
     try {
