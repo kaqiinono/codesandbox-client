@@ -70,8 +70,6 @@ export async function saveCache(
   };
 
   try {
-    // eslint-disable-next-line no-console
-    console.log('cache data', managerState);
     if (process.env.NODE_ENV === 'development') {
       debug(
         'Saving cache of ' +

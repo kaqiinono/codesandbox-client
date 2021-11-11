@@ -150,8 +150,6 @@ export function persistMeasurements(data: {
   ];
 
   if (process.env.NODE_ENV === 'development' || process.env.STAGING) {
-    // eslint-disable-next-line
-    console.log(body);
     return Promise.resolve();
   }
 
