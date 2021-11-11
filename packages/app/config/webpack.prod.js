@@ -12,7 +12,6 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const VERSION = require('@codesandbox/common/lib/version').default;
 // const childProcess = require('child_process');
-const commonConfig = require('./webpack.common');
 
 const publicPath = '/';
 // const isMaster =
@@ -22,9 +21,11 @@ const publicPath = '/';
 //     .trim() === 'master';
 
 const normalize = normalizeName({ name: true, automaticNameDelimiter: '~' });
+const commonConfig = require('./webpack.common');
+const save = require('./utils');
 
-module.exports = merge(commonConfig, {
-  devtool: 'source-map',
+const config = merge(commonConfig, {
+  devtool: 'inline-source-map',
   output: {
     filename: 'static/js/[name].[contenthash:9].js',
     chunkFilename: 'static/js/[name].[contenthash:9].chunk.js',
@@ -396,3 +397,7 @@ module.exports = merge(commonConfig, {
     //   }),
   ].filter(Boolean),
 });
+
+save(config);
+
+module.exports = config;
