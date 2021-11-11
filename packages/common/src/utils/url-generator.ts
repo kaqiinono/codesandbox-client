@@ -199,6 +199,10 @@ export const privacyUrl = () => `/legal/privacy`;
 export function getSandboxId() {
   const csbHost = process.env.CODESANDBOX_HOST;
 
+  if (/.*\.jd\.com/.test(csbHost)) {
+    return document.location.search.split('=')[1];
+  }
+
   if (process.env.LOCAL_SERVER) {
     return document.location.hash.replace('#', '');
   }
@@ -226,6 +230,7 @@ export function getSandboxId() {
 
   return result;
 }
+
 export const teamInviteLink = (inviteToken: string) =>
   `${protocolAndHost()}/invite/${inviteToken}`;
 
