@@ -22,18 +22,16 @@ function getPrivateDependencyInfo(url: string) {
 }
 
 export async function fetchWithRetries(
-  url: string,
+  _url: string,
   retries = 6,
   requestInit?: RequestInit
 ): Promise<Response> {
-  // eslint-disable-next-line no-console
-  console.log('fetchWithRetries', url);
-  const doFetch = () => {
-    let _url = url;
-    if (isPrivateDependency(_url)) {
-      _url = getPrivateDependencyInfo(_url);
-    }
-    window.fetch(_url, requestInit).then(x => {
+  let url = _url;
+  if (isPrivateDependency(_url)) {
+    url = getPrivateDependencyInfo(_url);
+  }
+  const doFetch = () =>
+    window.fetch(url, requestInit).then(x => {
       if (x.ok) {
         return x;
       }
@@ -46,7 +44,6 @@ export async function fetchWithRetries(
 
       throw error;
     });
-  };
 
   let lastTryTime = 0;
   for (let i = 0; i < retries; i++) {
@@ -57,8 +54,7 @@ export async function fetchWithRetries(
     }
     try {
       lastTryTime = Date.now();
-      // @ts-ignore
-      // eslint-disable-next-line no-await-in-loop
+      // eslint-disable-next-line
       return await doFetch();
     } catch (e) {
       console.error(e);
