@@ -1,9 +1,10 @@
 import { valid } from 'semver';
+import { getApiPrefix } from './host';
 
 export const isPrivateDependency = (pkgName: string) =>
   /^(@jd)\/.*/.test(pkgName);
 export const getPrivateDependencyServerUrl = (name, version) =>
-  `http://coder.jd.com/api/dependency?name=${name}&version=${version}`;
+  `${getApiPrefix()}/dependency?name=${name}&version=${version}`;
 export const getPrivateDependencyInfoUrl = name =>
   `https://registry.m.jd.com/${name}`;
 

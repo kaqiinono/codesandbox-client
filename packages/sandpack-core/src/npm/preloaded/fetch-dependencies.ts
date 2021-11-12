@@ -3,6 +3,7 @@ import {
   getAbsoluteDependency,
   isPrivateDependency,
 } from '@codesandbox/common/lib/utils/dependencies';
+import { getApiPrefix } from '@codesandbox/common/lib/utils/host';
 import { ILambdaResponse } from '../merge-dependency';
 
 import delay from '../../utils/delay';
@@ -100,7 +101,7 @@ async function requestPackager(
 }
 
 export const getDependencyApiUrl = (name: string, version: string | number) =>
-  `http://coder.jd.com/api/dependency?name=${name}&version=${version}`;
+  `${getApiPrefix()}/dependency?name=${name}&version=${version}`;
 
 export async function getDependency(
   depName: string,

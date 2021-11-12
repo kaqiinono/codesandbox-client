@@ -1,7 +1,7 @@
 // Grab NODE_ENV and REACT_APP_* environment variables and prepare them to be
 // injected into the application via DefinePlugin in Webpack configuration.
 import uuid from 'uuid';
-import getHost from '../utils/host';
+import { getHost } from '../utils/host';
 
 const REACT_APP = /^REACT_APP_/i;
 const NODE_ENV = JSON.stringify(process.env.NODE_ENV || 'development');
