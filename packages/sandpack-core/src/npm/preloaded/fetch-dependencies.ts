@@ -100,7 +100,7 @@ async function requestPackager(
 }
 
 export const getDependencyApiUrl = (name: string, version: string | number) =>
-  `http://coder.jd.com/api/dependency?name=${name}&version=${version}`;
+  `http://coder.jd.com/api/v1/sandboxes/dependency?name=${name}&version=${version}`;
 
 export async function getDependency(
   depName: string,
