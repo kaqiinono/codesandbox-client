@@ -1,5 +1,5 @@
 /* eslint-disable import/default */
-import BabelWorker from 'worker-loader?publicPath=/&name=babel-transpiler.[hash:8].worker.js!./eval/transpilers/babel/worker/index';
+import BabelWorker from 'worker-loader?publicPath=/sandpack/&name=babel-transpiler.[hash:8].worker.js!./eval/transpilers/babel/worker/index';
 /* eslint-enable import/default */
 import hookConsole from 'sandbox-hooks/console';
 import setupHistoryListeners from 'sandbox-hooks/url-listeners';
@@ -21,7 +21,7 @@ function prefetchScript(url) {
 prefetchScript(
   `${
     process.env.CODESANDBOX_HOST || ''
-  }/static/js/babel.${BABEL7_VERSION}.min.js`
+  }/sandpack/static/js/babel.${BABEL7_VERSION}.min.js`
 );
 
 const WORKERS_TO_LOAD = process.env.SANDPACK ? 1 : 3;

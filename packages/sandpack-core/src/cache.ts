@@ -3,12 +3,13 @@ import localforage from 'localforage';
 import * as memoryDriver from 'localforage-driver-memory';
 import _debug from '@codesandbox/common/lib/utils/debug';
 import { ParsedConfigurationFiles } from '@codesandbox/common/lib/templates/template';
+import { getApiPrefix } from '@codesandbox/common/lib/utils/host';
 import Manager from './manager';
 import { SerializedTranspiledModule } from './transpiled-module';
 
 const debug = _debug('cs:compiler:cache');
 
-const host = process.env.CODESANDBOX_HOST;
+// const host = process.env.CODESANDBOX_HOST;
 localforage.defineDriver(memoryDriver);
 localforage.setDriver([
   localforage.INDEXEDDB,
@@ -100,7 +101,7 @@ export async function saveCache(
     );
 
     return window
-      .fetch(`${host}/api/v1/sandboxes/${manager.id}/cache`, {
+      .fetch(`${getApiPrefix()}/${manager.id}/cache`, {
         method: 'POST',
         body: JSON.stringify({
           version: manager.version,
@@ -129,7 +130,7 @@ export function deleteAPICache(
   if (APICacheUsed && !process.env.SANDPACK) {
     debug('Deleting cache of API');
     return window
-      .fetch(`${host}/api/v1/sandboxes/${sandboxId}/cache`, {
+      .fetch(`${getApiPrefix()}/${sandboxId}/cache`, {
         method: 'DELETE',
         body: JSON.stringify({
           version,

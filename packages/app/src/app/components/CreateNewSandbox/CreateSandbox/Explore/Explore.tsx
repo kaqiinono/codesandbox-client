@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Scrollable } from '@codesandbox/common/lib/components/Scrollable';
+import { apiRelativePath } from '@codesandbox/common/lib/utils/host';
 import track from '@codesandbox/common/lib/utils/analytics';
 import { Header } from '../elements';
 import { SearchBox } from '../SearchBox';
@@ -33,7 +34,7 @@ export const Explore: React.FC<ExploreProps> = ({ collectionId }) => {
       }
     }, 600);
 
-    getTemplateInfosFromAPI('/api/v1/sandboxes/templates/explore').then(
+    getTemplateInfosFromAPI(`/${apiRelativePath}/templates/explore`).then(
       body => {
         setExploreTemplates(body);
         setLoading(false);

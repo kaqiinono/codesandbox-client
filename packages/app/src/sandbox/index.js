@@ -11,6 +11,7 @@ import { getSandboxId } from '@codesandbox/common/lib/utils/url-generator';
 import { getPreviewSecret } from 'sandbox-hooks/preview-secret';
 import { show404 } from 'sandbox-hooks/not-found-screen';
 
+import { apiRelativePath } from '@codesandbox/common/lib/utils/host';
 import compile, { getCurrentManager } from './compile';
 
 const host = process.env.CODESANDBOX_HOST;
@@ -81,7 +82,7 @@ requirePolyfills().then(() => {
     // We need to fetch the sandbox ourselves...
     const id = getSandboxId();
     window
-      .fetch(host + `/api/v1/sandboxes/${id}`, {
+      .fetch(host + `/${apiRelativePath}/${id}`, {
         headers: {
           Accept: 'application/json',
           Authorization: `Basic ${getPreviewSecret()}`,

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Scrollable } from '@codesandbox/common/lib/components/Scrollable';
+import { apiRelativePath } from '@codesandbox/common/lib/utils/host';
 import { useAppState, useActions } from 'app/overmind';
 import { LinkButton } from 'app/components/LinkButton';
 import track from '@codesandbox/common/lib/utils/analytics';
@@ -25,9 +26,11 @@ export const Create: React.FC<CreateProps> = ({ collectionId }) => {
   }, []);
 
   useEffect(() => {
-    getTemplateInfosFromAPI('/api/v1/sandboxes/templates/official').then(x => {
-      setOfficialTemplates(x);
-    });
+    getTemplateInfosFromAPI(`/${apiRelativePath}/templates/official`).then(
+      x => {
+        setOfficialTemplates(x);
+      }
+    );
   }, []);
 
   return (

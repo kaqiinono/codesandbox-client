@@ -13,6 +13,7 @@ import designLanguage from '@codesandbox/components/lib/design-language/theme';
 import css from '@styled-system/css';
 import { Sandbox } from '@codesandbox/common/lib/types';
 import { SandboxFragmentDashboardFragment } from 'app/graphql/types';
+import { apiRelativePath } from '@codesandbox/common/lib/utils/host';
 import { SandboxType } from '../constants';
 
 const PrivacyIcons = {
@@ -145,7 +146,7 @@ export const SandboxCard: React.FC<{
         style={{
           backgroundImage: `url(${
             sandbox.screenshotUrl ||
-            `/api/v1/sandboxes/${sandbox.id}/screenshot.png`
+            `/${apiRelativePath}/${sandbox.id}/screenshot.png`
           })`,
         }}
       />

@@ -8,6 +8,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import EyeIcon from 'react-icons/lib/fa/eye';
 import GithubIcon from 'react-icons/lib/fa/github';
 import { Button } from '@codesandbox/components';
+import { apiRelativePath } from '@codesandbox/common/src/utils/host';
 
 import {
   Avatar,
@@ -56,7 +57,7 @@ export const SandboxCard: React.FC<Props> = ({
   }, [template]);
 
   const requestScreenshot = useCallback(() => {
-    setScreenShotURL(`/api/v1/sandboxes/${id}/screenshot.png`);
+    setScreenShotURL(`/${apiRelativePath}/${id}/screenshot.png`);
   }, [id]);
   const checkScreenShot = useCallback(() => {
     if (!screenShotURL && hasScreenshot()) {

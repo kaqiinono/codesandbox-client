@@ -12,6 +12,7 @@ import {
 } from '@codesandbox/components';
 import css from '@styled-system/css';
 import { shortDistance } from '@codesandbox/common/lib/utils/short-distance';
+import { getApiPrefix } from '@codesandbox/common/src/utils/host';
 import { SandboxItemComponentProps } from './types';
 
 const useImageLoaded = (url: string) => {
@@ -333,7 +334,7 @@ const Thumbnail = ({
     function lazyLoadLatestScreenshot() {
       const timer = window.setTimeout(() => {
         if (!screenshotOutdated) return;
-        const url = `https://codesandbox.io/api/v1/sandboxes/${sandboxId}/screenshot.png`;
+        const url = `${getApiPrefix()}/${sandboxId}/screenshot.png`;
         setLatestScreenshotUrl(url);
       }, SCREENSHOT_TIMEOUT);
 

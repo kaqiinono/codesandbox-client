@@ -13,7 +13,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const VERSION = require('@codesandbox/common/lib/version').default;
 // const childProcess = require('child_process');
 
-const publicPath = '/';
+const publicPath = '/sandpack/';
 // const isMaster =
 //   childProcess
 //     .execSync(`git branch | grep \\* | cut -d ' ' -f2`)
@@ -29,6 +29,7 @@ const config = merge(commonConfig, {
   output: {
     filename: 'static/js/[name].[contenthash:9].js',
     chunkFilename: 'static/js/[name].[contenthash:9].chunk.js',
+    publicPath,
   },
   mode: 'production',
   stats: 'verbose',

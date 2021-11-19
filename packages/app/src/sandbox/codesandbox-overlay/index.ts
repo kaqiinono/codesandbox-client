@@ -1,4 +1,5 @@
 import { getParameters } from 'codesandbox-import-utils/lib/api/define';
+import { getApiPrefix } from '@codesandbox/common/lib/utils/host';
 
 export default function createOverlay(modules) {
   const normalized = Object.keys(modules).reduce(
@@ -33,7 +34,7 @@ export default function createOverlay(modules) {
     iframe.onload = () => {
       iframe.contentDocument.body.innerHTML = `
         <form
-          action="https://codesandbox.io/api/v1/sandboxes/define"
+          action="${getApiPrefix()}/define"
           method="POST"
           target="_blank"
           style="cursor:pointer;"

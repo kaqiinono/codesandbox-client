@@ -6,6 +6,7 @@ import type { Module, Sandbox } from '@codesandbox/common/lib/types';
 import Centered from '@codesandbox/common/lib/components/flex/Centered';
 import track from '@codesandbox/common/lib/utils/analytics';
 import { getSandboxOptions } from '@codesandbox/common/lib/url';
+import { apiRelativePath } from '@codesandbox/common/lib/utils/host';
 import {
   findCurrentModule,
   findMainModule,
@@ -149,7 +150,7 @@ export default class App extends React.PureComponent<
     } else {
       try {
         const response = await fetch(
-          `${this.getAppOrigin()}/api/v1/sandboxes/${id}`,
+          `${this.getAppOrigin()}/${apiRelativePath}/${id}`,
           {
             headers: {
               'Content-Type': 'application/json',
@@ -250,7 +251,7 @@ export default class App extends React.PureComponent<
           likeCount: s.sandbox.likeCount - 1,
         },
       }));
-      fetch(`/api/v1/sandboxes/${this.state.sandbox.id}/likes`, {
+      fetch(`/${apiRelativePath}/${this.state.sandbox.id}/likes`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -287,7 +288,7 @@ export default class App extends React.PureComponent<
           likeCount: s.sandbox.likeCount + 1,
         },
       }));
-      fetch(`/api/v1/sandboxes/${this.state.sandbox.id}/likes`, {
+      fetch(`/${apiRelativePath}/${this.state.sandbox.id}/likes`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

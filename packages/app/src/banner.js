@@ -1,5 +1,7 @@
 // Test it here: https://codesandbox.io/s/hungry-colden-4zcny?file=/src/index.js
 
+import { getApiPrefix } from '@codesandbox/common/lib/utils/host';
+
 const content = `
 <!DOCTYPE html>
 <html>
@@ -138,7 +140,7 @@ const createIframe = () => {
 
 try {
   const sandboxId = document.location.host.split('.')[0];
-  fetch(`https://codesandbox.io/api/v1/sandboxes/${sandboxId}/phishing`)
+  fetch(`${getApiPrefix}/${sandboxId}/phishing`)
     .then(response => response.json())
     .then(data => {
       if (data.deleted) {

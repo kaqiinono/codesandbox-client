@@ -4,7 +4,9 @@ import { getApiPrefix } from './host';
 export const isPrivateDependency = (pkgName: string) =>
   /^(@jd)\/.*/.test(pkgName);
 export const getPrivateDependencyServerUrl = (name, version) =>
-  `${getApiPrefix()}/dependency?name=${name}&version=${version}`;
+  `${getApiPrefix()}/dependency?name=${encodeURIComponent(
+    name
+  )}&version=${encodeURIComponent(version)}`;
 export const getPrivateDependencyInfoUrl = name =>
   `https://registry.m.jd.com/${name}`;
 

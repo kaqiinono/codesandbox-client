@@ -13,7 +13,7 @@ function isMinimalSemverVersion(versionOrRange, minimalVersion) {
 }
 
 self.importScripts(
-  `${process.env.CODESANDBOX_HOST}/static/browserfs12/browserfs.min.js`
+  `${process.env.CODESANDBOX_HOST}/sandpack/static/browserfs12/browserfs.min.js`
 );
 
 // To make the parser of typescript work

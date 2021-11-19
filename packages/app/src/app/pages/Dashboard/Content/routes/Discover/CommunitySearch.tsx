@@ -34,6 +34,7 @@ import {
 } from '@codesandbox/components';
 import css from '@styled-system/css';
 import { formatNumber } from '@codesandbox/components/lib/components/Stats';
+import { getApiPrefix } from '@codesandbox/common/lib/utils/host';
 
 /** instantsearch is very specific about it's connect types,
  * so instead of passing props, I created a context here */
@@ -109,7 +110,7 @@ const Results = connectHits(({ hits }) => {
       alias: sandbox.alias,
       title: sandbox.title,
       description: sandbox.description,
-      screenshotUrl: `https://codesandbox.io/api/v1/sandboxes/${sandbox.objectID}/screenshot.png`,
+      screenshotUrl: `${getApiPrefix()}/${sandbox.objectID}/screenshot.png`,
       forkCount: Number(sandbox.fork_count),
       likeCount: Number(sandbox.like_count),
       source: { template: sandbox.template },

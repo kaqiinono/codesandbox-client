@@ -15,6 +15,7 @@ import { Sandbox } from '@codesandbox/common/lib/types';
 import { SandboxFragmentDashboardFragment } from 'app/graphql/types';
 import { ENTER, SPACE, ALT } from '@codesandbox/common/lib/utils/keycodes';
 import { sandboxUrl } from '@codesandbox/common/lib/utils/url-generator';
+import { apiRelativePath } from '@codesandbox/common/lib/utils/host';
 import { SandboxType, DropTarget } from './constants';
 
 type DragItem = { type: SandboxType; sandboxId: string; index: number | null };
@@ -249,7 +250,7 @@ export const SandboxCard: React.FC<{
           style={{
             backgroundImage: `url(${
               sandbox.screenshotUrl ||
-              `/api/v1/sandboxes/${sandbox.id}/screenshot.png`
+              `/${apiRelativePath}/${sandbox.id}/screenshot.png`
             })`,
           }}
         />
